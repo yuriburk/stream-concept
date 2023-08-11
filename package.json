@@ -1,0 +1,16 @@
+{
+    "name": "poc-stream",
+    "version": "1.0.0",
+    "description": "POC of redirecting node stream",
+    "main": "service-2.js",
+    "scripts": {
+      "start": "concurrently \"node service-1.js\" \"node service-2.js\"",
+      "service1": "node service-1.js",
+      "service2": "node service-2.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "request": "^2.88.2",
+      "concurrently": "^5.3.0"
+    }
+  }
