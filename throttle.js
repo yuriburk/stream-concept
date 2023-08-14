@@ -33,7 +33,7 @@ class ThrottleStream extends PassThrough {
   printProgress() {
     if (this.totalSize > 0) {
       const progress = (this.totalBytesSent / this.totalSize) * 100;
-      console.log(`SERVICE 1 -> Stream ${progress.toFixed(2)}%`);
+      console.log(`SERVICE 2 -> Stream ${progress.toFixed(2)}%`);
     }
   }
 }
