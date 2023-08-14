@@ -5,7 +5,7 @@ const fs = require('fs');
 const { ThrottleStream } = require('./throttle');
 
 app.get('/generate', (req, res) => {
-  const fileMb = 10;
+  const fileMb = 100;
   const streamSize = fileMb * 1024 * 1024;
   const chunkSize = 5024;
 
@@ -20,7 +20,7 @@ app.get('/generate', (req, res) => {
 
     const writeNext = () => {
       if (isStopped) {
-        console.log('SERVICE 1 -> Stopped by user');
+        console.log('SERVICE 2 -> Stopped by user');
         res.end();
         return;
       }
@@ -32,14 +32,14 @@ app.get('/generate', (req, res) => {
         );
 
         if (res.write(chunk) === false) {
-          console.log('SERVICE 1 -> Drain');
+          console.log('SERVICE 2 -> Drain');
           res.once('drain', writeNext);
         } else {
           setTimeout(writeNext, 1);
         }
         remaining -= dataSize;
         chunkCount++;
-        console.log(`SERVICE 1 -> Remaining ${remaining}`);
+        console.log(`SERVICE 2 -> Remaining ${remaining}`);
       } else {
         res.end();
       }
@@ -50,13 +50,13 @@ app.get('/generate', (req, res) => {
 
   const stopDownloadHandler = () => {
     isStopped = true;
-    console.log('SERVICE 1 -> Connection close');
+    console.log('SERVICE 2 -> Connection close');
     res.end();
   };
 
   req.on('close', stopDownloadHandler);
 
-  console.log('SERVICE 1 -> Generating stream');
+  console.log('SERVICE 2 -> Generating stream');
   generateRandomStream(res, streamSize);
 });
 
@@ -77,12 +77,12 @@ app.get('/generate-csv', (req, res) => {
   csvReadStream.pipe(throttleStream).pipe(res);
 
   csvReadStream.on('error', (error) => {
-    console.error(`SERVICE 1 -> Error loading csv ${error.message}`);
+    console.error(`SERVICE 2 -> Error loading csv ${error.message}`);
     res.end();
   });
 
   req.on('close', () => {
-    console.log('SERVICE 1 -> Connection close');
+    console.log('SERVICE 2 -> Connection close');
     csvReadStream.close();
     throttleStream.end();
   });
@@ -92,6 +92,6 @@ app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
-app.listen(3000, () => {
-  console.log('Service 1 is running on port 3000');
+app.listen(4000, () => {
+  console.log('Service 2 is running on port 4000');
 });

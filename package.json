@@ -1,16 +1,20 @@
 {
-    "name": "poc-stream",
-    "version": "1.0.0",
-    "description": "POC of redirecting node stream",
-    "main": "service-2.js",
-    "scripts": {
-      "start": "concurrently \"node service-1.js\" \"node service-2.js\"",
-      "service1": "node service-1.js",
-      "service2": "node service-2.js"
-    },
-    "dependencies": {
-      "express": "^4.17.1",
-      "request": "^2.88.2",
-      "concurrently": "^5.3.0"
-    }
+  "name": "poc-stream",
+  "version": "1.0.0",
+  "description": "POC of redirecting node stream",
+  "main": "service.js",
+  "scripts": {
+    "start": "concurrently \"yarn service1\" \"yarn service2\"",
+    "service1": "nodemon service.js",
+    "service2": "nodemon microservice.js"
+  },
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1",
+    "pidusage": "^3.0.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
+}
